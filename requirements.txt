@@ -1,0 +1,37 @@
+# TURAN Video Generator - Зависимости Python
+# Установка: pip install -r requirements.txt
+
+# Основные зависимости Google Cloud
+google-auth>=2.22.0
+google-auth-oauthlib>=1.0.0
+google-auth-httplib2>=0.1.0
+google-cloud-storage>=2.10.0
+
+# HTTP запросы
+requests>=2.31.0
+
+# Обработка изображений (опционально)
+Pillow>=10.0.0
+
+# Прогресс бары
+tqdm>=4.65.0
+
+# Валидация данных
+pydantic>=2.0.0
+
+# Работа с JSON и конфигурацией
+pyyaml>=6.0.1
+
+# Utilities
+python-dotenv>=1.0.0
+pathlib2>=2.3.7
+
+# Логирование и мониторинг
+colorlog>=6.7.0
+
+# Обработка видео (опционально)
+# opencv-python>=4.8.0
+
+# Асинхронность (для будущих улучшений)
+# asyncio>=3.4.3
+# aiohttp>=3.8.5

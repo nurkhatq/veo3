@@ -1,0 +1,167 @@
+# TURAN Мебельный Магазин - Конфигурация видео генератора
+
+# Google Cloud настройки
+google_cloud:
+  project_id: "turantt"
+  project_number: "850567696273"
+  location: "us-central1"
+  account: "talllggat07777@gmail.com"
+  
+# Настройки хранилища
+storage:
+  bucket_name: "turan-videos"
+  input_folder: "images/furniture"
+  output_folder: "output/videos"
+  temp_folder: "temp"
+  
+# Настройки Veo API
+veo_api:
+  default_model: "veo-3.0-generate-001"
+  max_concurrent_operations: 5
+  operation_timeout: 600  # секунд
+  retry_attempts: 3
+  
+# Настройки видео по умолчанию
+video_defaults:
+  duration_seconds: 8
+  aspect_ratio: "16:9"
+  resolution: "1080p"
+  generate_audio: true
+  enhance_prompt: true
+  compression_quality: "optimized"
+  person_generation: "allow_adult"
+  sample_count: 1
+
+# Конфигурации для социальных сетей
+social_media_configs:
+  youtube:
+    model: "veo-3.0-generate-001"
+    duration_seconds: 8
+    aspect_ratio: "16:9"
+    resolution: "1080p"
+    generate_audio: true
+    
+  facebook:
+    model: "veo-3.0-generate-001"
+    duration_seconds: 6
+    aspect_ratio: "16:9"
+    resolution: "1080p"
+    generate_audio: true
+    
+  instagram_feed:
+    model: "veo-3.0-generate-001"
+    duration_seconds: 6
+    aspect_ratio: "16:9"
+    resolution: "1080p"
+    generate_audio: true
+    
+  instagram_stories:
+    model: "veo-3.0-generate-001"
+    duration_seconds: 6
+    aspect_ratio: "9:16"
+    resolution: "1080p"
+    generate_audio: true
+    
+  tiktok:
+    model: "veo-3.0-fast-generate-001"
+    duration_seconds: 6
+    aspect_ratio: "9:16"
+    resolution: "1080p"
+    generate_audio: true
+    
+  preview:
+    model: "veo-3.0-fast-generate-001"
+    duration_seconds: 4
+    aspect_ratio: "16:9"
+    resolution: "720p"
+    generate_audio: false
+
+# Промпты для брендинга TURAN
+brand_prompts:
+  base_brand: "Мебельный магазин TURAN, премиум качество, казахстанский бренд"
+  style_elements:
+    - "элегантный интерьер"
+    - "теплое освещение"
+    - "современный дизайн"
+    - "уютная атмосфера"
+    - "качественные материалы"
+    - "стильная мебель"
+    
+  negative_prompts:
+    - "плохое качество"
+    - "размытость"
+    - "искажения"
+    - "неестественные цвета"
+    - "плохое освещение"
+    - "хаос"
+    - "беспорядок"
+
+# Классификация мебели
+furniture_types:
+  диван:
+    keywords: ["диван", "sofa", "couch", "софа"]
+    specific_prompts:
+      - "Роскошный диван TURAN в современной гостиной, мягкое освещение, демонстрация комфорта"
+      - "Элегантный диван TURAN, семья отдыхает, уютная атмосфера, качественная ткань"
+      - "Стильный диван TURAN, камера показывает детали обивки, премиум материалы"
+      
+  кровать:
+    keywords: ["кровать", "bed", "bedroom", "спальня"]
+    specific_prompts:
+      - "Роскошная кровать TURAN в спальне, утреннее освещение, демонстрация комфорта"
+      - "Элегантная кровать TURAN, красивое изголовье, качественные материалы"
+      - "Премиум кровать TURAN в уютной спальне, вечернее освещение"
+      
+  стол:
+    keywords: ["стол", "table", "desk", "столик"]
+    specific_prompts:
+      - "Обеденный стол TURAN, красивая сервировка, качество древесины"
+      - "Стильный стол TURAN в современной кухне, функциональность и красота"
+      - "Элегантный стол TURAN, детали текстуры дерева, мастерство изготовления"
+      
+  шкаф:
+    keywords: ["шкаф", "wardrobe", "closet", "cabinet", "гардероб"]
+    specific_prompts:
+      - "Просторный шкаф TURAN, организованное хранение, качественная фурнитура"
+      - "Элегантный шкаф TURAN в спальне, стильный дизайн, вместительность"
+      - "Премиум шкаф TURAN, плавное открывание дверей, внимание к деталям"
+      
+  стул:
+    keywords: ["стул", "chair", "seat", "кресло"]
+    specific_prompts:
+      - "Комфортные стулья TURAN, демонстрация эргономики и стиля"
+      - "Стильные стулья TURAN, качество обивки и каркаса"
+      - "Элегантные стулья TURAN в интерьере, комфорт и дизайн"
+
+# Настройки логирования
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "turan_video_generator.log"
+  max_file_size: "10MB"
+  backup_count: 5
+
+# Настройки мониторинга
+monitoring:
+  enable_progress_bar: true
+  save_intermediate_results: true
+  create_thumbnails: true
+  generate_reports: true
+
+# Настройки обработки изображений
+image_processing:
+  supported_formats: [".jpg", ".jpeg", ".png", ".webp"]
+  max_file_size: "50MB"
+  auto_resize: true
+  target_resolution:
+    width: 1920
+    height: 1080
+  quality_enhancement: true
+
+# Настройки производительности
+performance:
+  max_concurrent_requests: 3
+  request_timeout: 30
+  retry_delay: 5
+  batch_size: 10
+  cache_results: true

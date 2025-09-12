@@ -1,0 +1,8 @@
+venv
+images
+__pycache__
+logs
+output
+turan_video_generator.log
+turan-credentials.json
+*.pyc
