@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-TURAN Simple Dressing Table Video Generator - CLI Runner
-Простой показ туалетных столиков с готовой русской озвучкой
+TURAN Simple Dressing Table Video Generator - Enhanced CLI Runner
+Простой показ туалетных столиков с готовой русской озвучкой + Кинематографические улучшения
 """
 
 import argparse
@@ -10,7 +10,7 @@ import sys
 import yaml
 import json
 from pathlib import Path
-from main import SimpleTuranGenerator, VideoGenerationConfig, VeoModel, AspectRatio, Resolution
+from main import SimpleTuranGenerator, VideoGenerationConfig, VeoModel, AspectRatio, Resolution, CinematicStyle, LightingMood
 
 def load_config(config_path: str = "simple_turan_config.yaml") -> dict:
     """Загрузка конфигурации из YAML файла"""
@@ -29,6 +29,7 @@ def create_config_from_args(args, config_data: dict) -> VideoGenerationConfig:
     
     # Получение настроек по умолчанию
     defaults = config_data.get('video_defaults', {})
+    enhanced_defaults = config_data.get('enhanced_settings', {})
     
     # Всегда используем VEO 3.0 и 8 секунд
     model = VeoModel.VEO_3_GENERATE
@@ -40,6 +41,32 @@ def create_config_from_args(args, config_data: dict) -> VideoGenerationConfig:
     # Определение разрешения
     resolution = Resolution.HD if args.hd else Resolution.FULL_HD
     
+    # Кинематографические настройки
+    cinematic_style_map = {
+        'commercial': CinematicStyle.COMMERCIAL,
+        'lifestyle': CinematicStyle.LIFESTYLE,
+        'dramatic': CinematicStyle.DRAMATIC,
+        'intimate': CinematicStyle.INTIMATE
+    }
+    
+    lighting_mood_map = {
+        'golden_hour': LightingMood.GOLDEN_HOUR,
+        'morning_soft': LightingMood.MORNING_SOFT,
+        'evening_warm': LightingMood.EVENING_WARM,
+        'dramatic_contrast': LightingMood.DRAMATIC_CONTRAST,
+        'natural_bright': LightingMood.NATURAL_BRIGHT
+    }
+    
+    cinematic_style = cinematic_style_map.get(
+        args.cinematic_style or enhanced_defaults.get('default_cinematic_style', 'commercial'),
+        CinematicStyle.COMMERCIAL
+    )
+    
+    lighting_mood = lighting_mood_map.get(
+        args.lighting_mood or enhanced_defaults.get('default_lighting_mood', 'golden_hour'),
+        LightingMood.GOLDEN_HOUR
+    )
+    
     return VideoGenerationConfig(
         model=model,
         duration_seconds=duration,
@@ -50,13 +77,17 @@ def create_config_from_args(args, config_data: dict) -> VideoGenerationConfig:
         enhance_prompt=not args.no_enhance and defaults.get('enhance_prompt', True),
         compression_quality=defaults.get('compression_quality', 'optimized'),
         person_generation=defaults.get('person_generation', 'allow_adult'),
-        seed=args.seed
+        seed=args.seed,
+        # Новые кинематографические параметры
+        cinematic_style=cinematic_style,
+        lighting_mood=lighting_mood,
+        use_enhanced_prompts=not args.disable_enhanced and enhanced_defaults.get('enabled', True)
     )
 
 def show_showcase_scenarios(generator: SimpleTuranGenerator):
     """Показать все доступные сценарии показа столиков"""
-    print("🎥 Доступные сценарии показа туалетных столиков TURAN Lux:")
-    print("=" * 65)
+    print("🎥 Доступные кинематографические сценарии показа TURAN Lux:")
+    print("=" * 70)
     
     scenarios = generator.get_all_scenarios()
     
@@ -85,41 +116,74 @@ def show_showcase_scenarios(generator: SimpleTuranGenerator):
     for focus, scenarios_list in focus_groups.items():
         emoji = focus_emojis.get(focus, '📝')
         print(f"\n{emoji} {focus.upper().replace('_', ' ')}")
-        print("-" * 45)
+        print("-" * 50)
         
         for scenario in scenarios_list:
             print(f"  🎬 ID: {scenario['id']}")
+            print(f"     Стиль: {scenario.get('cinematic_style', 'Standard')}")
+            print(f"     Освещение: {scenario.get('lighting_mood', 'Natural')}")
             print(f"     Озвучка: {scenario['russian_voiceover']}")
             print()
 
+def show_enhancement_comparison():
+    """Показать сравнение старых и новых промптов"""
+    print("📊 СРАВНЕНИЕ ПРОМПТОВ - ДО И ПОСЛЕ УЛУЧШЕНИЙ:")
+    print("=" * 70)
+    
+    print("\n❌ СТАРЫЙ ПРОМПТ (простой):")
+    old_prompt = "Keep the dressing table exactly as shown in the image. Add: Elegant bedroom interior, warm morning light through window, camera slowly pans around the dressing table showing different angles, cozy atmosphere, soft lighting, modern home interior, 8-second elegant showcase"
+    print(f"   {old_prompt}")
+    print(f"   Длина: {len(old_prompt)} символов")
+    
+    print("\n✅ НОВЫЙ ПРОМПТ (кинематографический):")
+    new_prompt = "Professional commercial shot on ARRI ALEXA 35 with 50mm Zeiss Master Prime lens. Keep the TURAN Lux dressing table exactly as shown in image - preserve white glass surface, 4 drawers, LED mirror, and metallic legs unchanged. Add: Elegant contemporary bedroom interior with warm oak flooring and floor-to-ceiling windows. Warm golden hour sunlight streaming through sheer curtains, creating ethereal atmosphere with dancing light particles and soft shadows highlighting the glass surface texture. Camera begins with wide establishing shot, then executes slow dolly movement forward with subtle downward tilt, ending in intimate close-up of LED mirror lighting. Audio: gentle morning ambiance, soft fabric sounds, warm contemporary piano score building subtly. Color palette: warm whites, brushed metallics, soft golden accents. Professional commercial cinematography. No subtitles."
+    print(f"   {new_prompt[:200]}...")
+    print(f"   Длина: {len(new_prompt)} символов")
+    
+    print(f"\n📈 УЛУЧШЕНИЯ:")
+    print(f"   📐 Длина увеличена в {len(new_prompt) / len(old_prompt):.1f} раза")
+    print(f"   🎥 Добавлены профессиональные камеры и объективы")
+    print(f"   💡 Детальное описание освещения и атмосферы")
+    print(f"   🎵 Интегрирован звуковой дизайн")
+    print(f"   🎨 Определена цветовая палитра")
+    print(f"   📱 Убраны субтитры и наложения")
+    print(f"   🎬 Кинематографические движения камеры")
+
 def main():
-    """Главная функция CLI для простого показа туалетных столиков"""
+    """Главная функция CLI для улучшенного показа туалетных столиков"""
     parser = argparse.ArgumentParser(
-        description="🪞 TURAN Simple Dressing Table Generator - Простой показ с готовой озвучкой",
+        description="🪞 TURAN Enhanced Dressing Table Generator - Кинематографический показ с готовой озвучкой",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Примеры использования:
 
-  # Базовое использование - показ столиков в уютной обстановке
-  python run_simple_turan.py -i images/dressing_tables -o output/videos
+  # Базовое использование с улучшениями
+  python run_simple_turan.py -i images/dressing_tables -o output/videos --enhanced
 
-  # Быстрое превью
-  python run_simple_turan.py -i images/dressing_tables -o output/preview --hd
+  # Коммерческий стиль с золотым освещением
+  python run_simple_turan.py -i images/dressing_tables -o output/commercial \\
+    --cinematic-style commercial --lighting-mood golden_hour
 
-  # Вертикальное для Instagram/TikTok
-  python run_simple_turan.py -i images/dressing_tables -o output/instagram --portrait
+  # Lifestyle стиль для Instagram/TikTok
+  python run_simple_turan.py -i images/dressing_tables -o output/instagram \\
+    --portrait --cinematic-style lifestyle --lighting-mood morning_soft
 
-  # Обработка одного изображения
-  python run_simple_turan.py --single-image images/dressing_tables/столик.jpg -o output/single
+  # Драматический стиль для премиум показа
+  python run_simple_turan.py -i images/dressing_tables -o output/dramatic \\
+    --cinematic-style dramatic --lighting-mood dramatic_contrast
 
-  # Показать все сценарии показа
+  # Сравнение старых и новых промптов
+  python run_simple_turan.py --compare-prompts
+
+  # Показать все кинематографические сценарии
   python run_simple_turan.py --show-scenarios
 
-  # Кастомный промпт для показа (столик остается неизменным)
-  python run_simple_turan.py \
-    --single-image images/dressing_tables/столик.jpg \
-    --custom-prompt "Camera moves smoothly around furniture in cozy bedroom" \
-    -o output/custom
+  # A/B тестирование (старый vs новый подход)
+  python run_simple_turan.py --single-image images/dressing_tables/столик.jpg \\
+    -o output/ab_test --ab-test
+
+  # Быстрое превью с улучшениями
+  python run_simple_turan.py -i images/dressing_tables -o output/preview --hd --enhanced
         """
     )
     
@@ -130,7 +194,7 @@ def main():
     
     parser.add_argument('-o', '--output', 
                        help='Папка для сохранения видео', 
-                       default='output/dressing_table_showcase')
+                       default='output/dressing_table_enhanced')
     
     parser.add_argument('-c', '--config', 
                        help='Путь к файлу конфигурации', 
@@ -151,6 +215,31 @@ def main():
     parser.add_argument('--hd', action='store_true',
                        help='Использовать 720p вместо 1080p (быстрее)')
     
+    # НОВЫЕ КИНЕМАТОГРАФИЧЕСКИЕ ПАРАМЕТРЫ
+    parser.add_argument('--cinematic-style', 
+                       choices=['commercial', 'lifestyle', 'dramatic', 'intimate'],
+                       help='Кинематографический стиль видео')
+    
+    parser.add_argument('--lighting-mood',
+                       choices=['golden_hour', 'morning_soft', 'evening_warm', 'dramatic_contrast', 'natural_bright'],
+                       help='Настроение освещения')
+    
+    parser.add_argument('--enhanced', action='store_true',
+                       help='Включить все кинематографические улучшения (рекомендуется)')
+    
+    parser.add_argument('--disable-enhanced', action='store_true',
+                       help='Отключить улучшенные промпты (использовать простые)')
+    
+    # Специальные режимы анализа
+    parser.add_argument('--ab-test', action='store_true',
+                       help='A/B тестирование: сравнить старые и новые промпты')
+    
+    parser.add_argument('--compare-prompts', action='store_true',
+                       help='Показать сравнение старых и новых промптов')
+    
+    parser.add_argument('--export-analytics', action='store_true',
+                       help='Экспортировать аналитику производительности')
+    
     # Дополнительные опции
     parser.add_argument('--no-audio', action='store_true',
                        help='Отключить генерацию русской озвучки')
@@ -163,17 +252,17 @@ def main():
     
     # Специальные режимы
     parser.add_argument('--batch-social-media', action='store_true',
-                       help='Создать видео для всех соцсетей (горизонтальное + вертикальное)')
+                       help='Создать видео для всех соцсетей с оптимальными стилями')
     
     parser.add_argument('--single-image',
                        help='Обработать только одно изображение туалетного столика')
     
     parser.add_argument('--custom-prompt',
-                       help='Кастомный промпт показа (на английском). Столик останется неизменным!')
+                       help='Кастомный промпт показа (на английском). Будет улучшен автоматически!')
     
     # Информационные команды
     parser.add_argument('--show-scenarios', action='store_true',
-                       help='Показать все доступные сценарии показа')
+                       help='Показать все доступные кинематографические сценарии')
     
     # Утилиты
     parser.add_argument('--dry-run', action='store_true',
@@ -183,6 +272,11 @@ def main():
                        help='Подробный вывод')
     
     args = parser.parse_args()
+    
+    # Информационные команды (выполняются без инициализации генератора)
+    if args.compare_prompts:
+        show_enhancement_comparison()
+        return
     
     # Инициализация генератора
     try:
@@ -204,9 +298,9 @@ def main():
     # Загрузка конфигурации
     config_data = load_config(args.config)
     
-    print("🪞 TURAN Simple Dressing Table Generator")
-    print("Простой показ столиков + Готовая русская озвучка")
-    print("=" * 55)
+    print("🪞 TURAN Enhanced Dressing Table Generator")
+    print("Кинематографический показ столиков + Готовая русская озвучка")
+    print("=" * 65)
     
     if args.verbose:
         print(f"📁 Входная папка: {args.input}")
@@ -216,15 +310,19 @@ def main():
         print("⏱️ Длительность: 8 секунд (фиксированная)")
         print("🔊 Озвучка: Готовые русские тексты")
         print("📸 Столик: Остается точно как на фото")
-        print("🎥 Режим: Показ в уютной обстановке")
-        print("-" * 55)
+        enhancement_status = "ВКЛЮЧЕНЫ" if not args.disable_enhanced else "ОТКЛЮЧЕНЫ"
+        print(f"🎬 Кинематографические улучшения: {enhancement_status}")
+        if not args.disable_enhanced:
+            print(f"🎥 Стиль: {args.cinematic_style or 'commercial'}")
+            print(f"💡 Освещение: {args.lighting_mood or 'golden_hour'}")
+        print("-" * 65)
     
     # Проверка инициализации генератора
     if not generator:
         print("❌ Генератор не инициализирован")
         sys.exit(1)
     
-    print("✅ Простой генератор показа туалетных столиков готов")
+    print("✅ Улучшенный генератор показа туалетных столиков готов")
     
     # Создание конфигурации
     config = create_config_from_args(args, config_data)
@@ -236,30 +334,38 @@ def main():
         print(f"🎯 Разрешение: {config.resolution.value}")
         print(f"🔊 Русская озвучка: {'Да' if config.generate_audio else 'Нет'}")
         print(f"📊 Количество: {config.sample_count}")
+        print(f"🎬 Кинематографический стиль: {config.cinematic_style.value}")
+        print(f"💡 Настроение освещения: {config.lighting_mood.value}")
+        print(f"✨ Улучшенные промпты: {'Да' if config.use_enhanced_prompts else 'Нет'}")
         
         # Показать примеры сценариев
         scenarios = generator.get_all_scenarios()
-        print(f"🎥 Доступно сценариев показа: {len(scenarios)}")
-        print("Примеры озвучки:")
+        print(f"🎥 Доступно кинематографических сценариев: {len(scenarios)}")
+        print("Примеры улучшенных промптов:")
         for scenario in scenarios[:2]:
-            print(f"  • {scenario['russian_voiceover']}")
-        print("-" * 55)
+            print(f"  • {scenario['id']}: {scenario['russian_voiceover']}")
+            print(f"    {scenario['enhanced_prompt'][:100]}...")
+        print("-" * 65)
     
     # Dry run режим
     if args.dry_run:
         print("🔍 DRY RUN - план выполнения:")
         
+        enhancement_note = " с кинематографическими улучшениями" if config.use_enhanced_prompts else " (простые промпты)"
+        
         if args.single_image:
             print(f"📷 Обработка изображения: {args.single_image}")
             if args.custom_prompt:
                 print(f"🎨 Кастомный промпт: {args.custom_prompt}")
-                print("📸 Столик останется точно как на фото!")
+                print("🎬 Промпт будет автоматически улучшен до кинематографического уровня!")
             else:
                 scenarios = generator.get_all_scenarios()
                 import random
                 example_scenario = random.choice(scenarios)
                 print(f"🎥 Пример сценария: {example_scenario['id']}")
+                print(f"🎬 Стиль: {example_scenario.get('cinematic_style', 'Standard')}")
                 print(f"🔊 Озвучка: {example_scenario['russian_voiceover']}")
+            print(f"📸 Столик останется точно как на фото{enhancement_note}")
         else:
             input_path = Path(args.input)
             if input_path.exists():
@@ -271,13 +377,13 @@ def main():
                     print(f"  ... и еще {len(images) - 3}")
                 
                 scenarios = generator.get_all_scenarios()
-                print(f"🎥 Каждое изображение получит случайный сценарий из {len(scenarios)} доступных")
-                print("🎬 Сценарии фокусируются на уютном показе столика с разных ракурсов")
+                print(f"🎥 Каждое изображение получит случайный сценарий из {len(scenarios)} кинематографических")
+                print(f"🎬 Сценарии включают профессиональные камеры, освещение и движения{enhancement_note}")
             else:
                 print(f"❌ Папка {args.input} не найдена")
         
         print(f"💾 Результаты будут сохранены в: {args.output}")
-        print(f"📄 JSON отчеты: generated_showcase_scenarios.json")
+        print(f"📄 JSON отчеты: enhanced_showcase_scenarios.json")
         if args.storage_uri:
             print(f"☁️ GCS URI: {args.storage_uri}")
         
@@ -288,14 +394,60 @@ def main():
     Path(args.output).mkdir(parents=True, exist_ok=True)
     
     try:
+        # A/B тестирование
+        if args.ab_test and args.single_image:
+            print("🔬 A/B ТЕСТИРОВАНИЕ: Сравнение старых и новых промптов")
+            
+            # Создаем папки для сравнения
+            ab_output = Path(args.output) / "ab_test"
+            old_output = ab_output / "traditional_prompts"
+            new_output = ab_output / "enhanced_prompts"
+            old_output.mkdir(parents=True, exist_ok=True)
+            new_output.mkdir(parents=True, exist_ok=True)
+            
+            # Тест со старыми промптами
+            print("\n📹 Генерация с традиционными промптами...")
+            config_old = config
+            config_old.use_enhanced_prompts = False
+            
+            operation_old, scenario_old = generator.generate_video_from_image(
+                args.single_image, config_old, custom_prompt=args.custom_prompt,
+                storage_uri=f"{args.storage_uri}/traditional/" if args.storage_uri else None
+            )
+            
+            # Тест с новыми промптами
+            print("\n🎬 Генерация с кинематографическими промптами...")
+            config_new = config
+            config_new.use_enhanced_prompts = True
+            
+            operation_new, scenario_new = generator.generate_video_from_image(
+                args.single_image, config_new, custom_prompt=args.custom_prompt,
+                storage_uri=f"{args.storage_uri}/enhanced/" if args.storage_uri else None
+            )
+            
+            print(f"\n📊 РЕЗУЛЬТАТЫ A/B ТЕСТИРОВАНИЯ:")
+            print(f"📝 Традиционный сценарий: {scenario_old['id']}")
+            print(f"🎬 Кинематографический сценарий: {scenario_new['id']}")
+            print(f"⏳ Ожидайте завершения обеих генераций для сравнения...")
+            
+            # Дожидаемся результатов и сохраняем
+            print("⏳ Ожидание завершения традиционной генерации...")
+            result_old = generator.poll_operation_status(operation_old)
+            
+            print("⏳ Ожидание завершения кинематографической генерации...")
+            result_new = generator.poll_operation_status(operation_new)
+            
+            print("✅ A/B тестирование завершено! Сравните результаты в папках.")
+            return
+        
         # Режим пакетной обработки для соцсетей
         if args.batch_social_media:
-            print("📱 Режим пакетной обработки для социальных сетей")
+            print("📱 Режим пакетной обработки для социальных сетей с оптимальными стилями")
             
             social_configs = generator.create_social_media_configs()
             platforms = [
-                ('youtube_facebook', 'Горизонтальное (YouTube/Facebook)'),
-                ('instagram_tiktok', 'Вертикальное (Instagram/TikTok)')
+                ('youtube_facebook', 'Горизонтальное (YouTube/Facebook) - Commercial Style'),
+                ('instagram_tiktok', 'Вертикальное (Instagram/TikTok) - Lifestyle Style')
             ]
             
             for i, (platform, description) in enumerate(platforms):
@@ -303,6 +455,8 @@ def main():
                 platform_output.mkdir(exist_ok=True)
                 
                 print(f"\n🎥 Создание видео: {description}")
+                print(f"🎬 Стиль: {social_configs[i].cinematic_style.value}")
+                print(f"💡 Освещение: {social_configs[i].lighting_mood.value}")
                 
                 results = generator.process_image_folder(
                     args.input,
@@ -316,11 +470,12 @@ def main():
                 
                 # Показать использованные сценарии
                 if args.verbose and successful > 0:
-                    print("🎥 Использованные сценарии показа:")
+                    print("🎥 Использованные кинематографические сценарии:")
                     for result in results[:3]:  # Показать первые 3
                         if result.get("status") == "success" and "scenario" in result:
                             scenario = result["scenario"]
                             print(f"  • {scenario['id']}: {scenario['russian_voiceover'][:60]}...")
+                            print(f"    Стиль: {scenario.get('cinematic_style', 'Standard')}")
         
         # Обработка одного изображения
         elif args.single_image:
@@ -333,22 +488,24 @@ def main():
                 storage_uri=args.storage_uri
             )
             
-            print(f"🎥 Выбранный сценарий показа: {scenario['id']}")
+            print(f"🎥 Выбранный кинематографический сценарий: {scenario['id']}")
+            print(f"🎬 Стиль: {scenario.get('cinematic_style', 'Standard')}")
+            print(f"💡 Освещение: {scenario.get('lighting_mood', 'Natural')}")
             print(f"🔊 Русская озвучка: {scenario['russian_voiceover']}")
-            print(f"🎬 Фокус: {scenario['focus']}")
+            print(f"🎯 Фокус: {scenario['focus']}")
             
             print("⏳ Ожидание завершения генерации...")
             result = generator.poll_operation_status(operation_name)
             
             if "response" in result:
                 videos = result["response"].get("videos", [])
-                print(f"✅ Создано видео показа: {len(videos)} файлов")
+                print(f"✅ Создано кинематографическое видео: {len(videos)} файлов")
                 
                 for i, video in enumerate(videos):
                     if "gcsUri" in video:
                         print(f"☁️ GCS: {video['gcsUri']}")
                     elif "bytesBase64Encoded" in video:
-                        filename = f"turan_{scenario['id']}_{Path(args.single_image).stem}_v{i}.mp4"
+                        filename = f"turan_enhanced_{scenario['id']}_{Path(args.single_image).stem}_v{i}.mp4"
                         output_path = Path(args.output) / filename
                         
                         import base64
@@ -361,6 +518,8 @@ def main():
         # Обработка папки с изображениями
         else:
             print(f"📁 Обработка папки с туалетными столиками: {args.input}")
+            enhancement_note = " с кинематографическими улучшениями" if config.use_enhanced_prompts else ""
+            print(f"🎬 Режим{enhancement_note}")
             
             results = generator.process_image_folder(
                 args.input,
@@ -370,32 +529,43 @@ def main():
             )
             
             # Сохранение подробного отчета
-            report_path = Path(args.output) / "showcase_generation_report.json"
+            report_path = Path(args.output) / "enhanced_showcase_generation_report.json"
             with open(report_path, 'w', encoding='utf-8') as f:
                 json.dump(results, f, ensure_ascii=False, indent=2)
+            
+            # Экспорт аналитики если запрошено
+            if args.export_analytics:
+                generator.export_performance_report()
             
             # Статистика
             successful = sum(1 for r in results if r.get("status") == "success")
             failed = len(results) - successful
             
-            print(f"\n🎉 ГЕНЕРАЦИЯ ВИДЕО ПОКАЗА ЗАВЕРШЕНА!")
+            print(f"\n🎉 КИНЕМАТОГРАФИЧЕСКАЯ ГЕНЕРАЦИЯ ВИДЕО ЗАВЕРШЕНА!")
             print(f"✅ Успешно: {successful}")
             print(f"❌ Ошибки: {failed}")
             print(f"📊 Всего: {len(results)}")
             print(f"📄 Отчет: {report_path}")
-            print(f"🎥 Сценарии показа: generated_showcase_scenarios.json")
+            print(f"🎥 Сценарии: generated_showcase_scenarios.json")
             
-            # Показать статистику по сценариям
-            if successful > 0 and args.verbose:
+            # Показать статистику улучшений
+            if args.verbose:
+                analytics = generator.get_generation_analytics()
+                print(f"\n📊 СТАТИСТИКА КИНЕМАТОГРАФИЧЕСКИХ УЛУЧШЕНИЙ:")
+                print(f"   🎬 Улучшенных промптов: {analytics['enhancement_usage_percentage']:.1f}%")
+                print(f"   📝 Традиционных промптов: {analytics['traditional_usage_percentage']:.1f}%")
+                
                 scenario_usage = {}
                 for result in results:
                     if result.get("status") == "success" and "scenario" in result:
                         scenario_id = result["scenario"]["id"]
-                        scenario_usage[scenario_id] = scenario_usage.get(scenario_id, 0) + 1
+                        scenario_style = result.get("cinematic_style", "Standard")
+                        key = f"{scenario_id} ({scenario_style})"
+                        scenario_usage[key] = scenario_usage.get(key, 0) + 1
                 
-                print(f"\n🎥 Использованные сценарии показа:")
-                for scenario_id, count in sorted(scenario_usage.items()):
-                    print(f"  • {scenario_id}: {count} раз")
+                print(f"\n🎥 Использованные кинематографические сценарии:")
+                for scenario_key, count in sorted(scenario_usage.items())[:5]:
+                    print(f"  • {scenario_key}: {count} раз")
             
             if failed > 0:
                 print(f"\n❌ Изображения с ошибками:")

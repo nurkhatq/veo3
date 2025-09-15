@@ -1,4 +1,5 @@
-# TURAN Dressing Table Video Generator - Обновленная конфигурация с JSON сценариями
+# TURAN Dressing Table Video Generator - Enhanced Configuration
+# Обновленная конфигурация с кинематографическими улучшениями
 
 # Google Cloud настройки
 google_cloud:
@@ -11,9 +12,10 @@ google_cloud:
 storage:
   bucket_name: "turan-videos"
   input_folder: "images/dressing_tables"
-  output_folder: "output/dressing_table_videos"
+  output_folder: "output/dressing_table_enhanced"
   temp_folder: "temp"
-  scenarios_file: "generated_scenarios.json"
+  scenarios_file: "generated_showcase_scenarios.json"
+  analytics_file: "turan_enhanced_performance_report.json"
   
 # Настройки Veo API (только VEO 3.0)
 veo_api:
@@ -33,7 +35,58 @@ video_defaults:
   person_generation: "allow_adult"
   sample_count: 1
 
-# Конфигурации для социальных сетей
+# НОВЫЕ КИНЕМАТОГРАФИЧЕСКИЕ НАСТРОЙКИ
+enhanced_settings:
+  enabled: true                  # Включить улучшенные промпты по умолчанию
+  default_cinematic_style: "commercial"  # commercial, lifestyle, dramatic, intimate
+  default_lighting_mood: "golden_hour"   # golden_hour, morning_soft, evening_warm, dramatic_contrast, natural_bright
+  
+  # Профессиональные камеры для каждого стиля
+  camera_equipment:
+    commercial:
+      - "ARRI ALEXA 35 with 50mm Zeiss Master Prime lens"
+      - "Sony FX9 with Sigma 24-70mm f/2.8 cine lens"
+      - "RED KOMODO 6K with 35mm vintage glass"
+      - "ARRI MINI LF with 75mm Master Macro lens"
+    
+    lifestyle:
+      - "Sony A7S III, 85mm f/1.4 GM lens"
+      - "Canon R5 with 50mm f/1.2 RF lens"
+      - "Panasonic GH6, 25mm f/1.7 lens"
+    
+    dramatic:
+      - "RED MONSTRO 8K with anamorphic 50mm lens"
+      - "ARRI ALEXA LF with 65mm Master Prime"
+      - "Blackmagic URSA 12K, 35mm cine lens"
+  
+  # Описания освещения для каждого настроения
+  lighting_descriptions:
+    golden_hour:
+      - "Warm golden hour sunlight streaming through floor-to-ceiling windows, creating ethereal atmosphere with dancing light particles"
+      - "Magic hour lighting with honey-colored rays filtering through sheer curtains"
+      - "Late afternoon sun creating dramatic rim lighting and warm, inviting glow"
+    
+    morning_soft:
+      - "Gentle morning sunlight diffused through translucent curtains, creating soft, even illumination"
+      - "Fresh daybreak lighting with cool-warm balance"
+      - "Peaceful morning ambiance with natural north-facing window light"
+    
+    evening_warm:
+      - "Cozy evening atmosphere with warm LED practicals and soft lamplight"
+      - "Romantic twilight setting with warm tungsten lighting"
+      - "Evening sanctuary lighting with multiple warm sources"
+    
+    dramatic_contrast:
+      - "High contrast studio lighting with deep shadows and bright highlights"
+      - "Dramatic directional lighting from multiple sources"
+      - "Cinematic lighting setup with strong key light and subtle fill"
+    
+    natural_bright:
+      - "Bright natural daylight from multiple windows creating crisp, clean illumination"
+      - "Fresh architectural lighting emphasizing clean lines"
+      - "Balanced daylight with soft environmental fill"
+
+# Конфигурации для социальных сетей с оптимальными стилями
 social_media_configs:
   youtube_facebook:
     model: "veo-3.0-generate-001"
@@ -41,6 +94,8 @@ social_media_configs:
     aspect_ratio: "16:9"
     resolution: "1080p"
     generate_audio: true
+    cinematic_style: "commercial"
+    lighting_mood: "golden_hour"
     
   instagram_tiktok:
     model: "veo-3.0-generate-001"
@@ -48,11 +103,13 @@ social_media_configs:
     aspect_ratio: "9:16"
     resolution: "1080p"
     generate_audio: true
+    cinematic_style: "lifestyle"
+    lighting_mood: "morning_soft"
 
 # Информация о продукте TURAN Lux
 product_info:
   name: "Туалетный столик TURAN Lux"
-  description: "Стильное и функциональное решение для вашего интерьера"
+  description: "Кинематографический показ стильного и функционального решения"
   
   features:
     - "Белая закаленная стеклянная столешница"
@@ -63,13 +120,89 @@ product_info:
     - "Регулируемое расположение внешних ящиков"
     - "Надёжные и устойчивые материалы"
     
+  preservation_requirements:
+    - "Сохранить белую стеклянную поверхность"
+    - "Сохранить конфигурацию 4 ящиков"
+    - "Сохранить LED зеркало"
+    - "Сохранить металлические ножки"
+    - "Не изменять дизайн столика"
+    
   target_audience:
     - "Женщины 18-45 лет"
     - "Любители красоты и ухода за собой"
     - "Ценители стильного интерьера"
     - "Активные пользователи социальных сетей"
 
-# JSON структура мемных сценариев (8 секунд, быстрые)
+# УЛУЧШЕННЫЕ НЕГАТИВНЫЕ ПРОМПТЫ
+negative_prompts:
+  enhanced: "changing the TURAN dressing table design, removing original furniture, altering glass surface, modifying drawer configuration, changing LED mirror, different furniture style, poor quality, blurry, distorted, unnatural colors, bad lighting, amateur cinematography, unprofessional setup, subtitles, text overlay, watermarks, low resolution, pixelated, grainy, overexposed, underexposed, harsh shadows, flat lighting"
+  
+  specific_furniture_protection:
+    - "changing the white glass surface"
+    - "altering the 4-drawer system"
+    - "modifying LED mirror lighting"
+    - "changing metallic leg design"
+    - "different furniture color"
+    - "removing original table"
+  
+  technical_quality:
+    - "poor video quality"
+    - "amateur lighting setup"
+    - "unprofessional cinematography"
+    - "bad camera work"
+    - "low resolution output"
+    - "pixelated footage"
+    - "motion blur artifacts"
+
+# Аудио дизайн компоненты
+audio_design:
+  commercial_style:
+    - "gentle morning ambiance, soft fabric sounds, warm contemporary piano score building subtly"
+    - "sophisticated commercial audio with premium material interaction sounds"
+    - "refined background music with authentic furniture interaction acoustics"
+  
+  lifestyle_style:
+    - "intimate room tone with delicate material interactions, minimalist ambient music"
+    - "natural home environment sounds with warm, family-friendly background music"
+    - "peaceful bedroom atmosphere, soft drawer sliding sounds"
+  
+  dramatic_style:
+    - "minimal ambient sounds with building orchestral score"
+    - "sophisticated audio landscape with contemporary orchestral arrangement"
+    - "dramatic commercial audio design with refined material sounds"
+
+# Цветовые палитры
+color_palettes:
+  commercial:
+    - "warm whites, brushed metallics, soft golden accents"
+    - "pristine whites, cool silver metallic highlights, gentle cream undertones"
+    - "elegant white glass dominance, warm brass accents, soft beige environmental tones"
+  
+  lifestyle:
+    - "natural daylight whites, warm family home atmosphere"
+    - "soft morning whites, natural skin-flattering lighting"
+    - "comfortable living tones, warm environmental palette"
+  
+  dramatic:
+    - "luxury whites with dramatic shadows, premium metallic accents"
+    - "high contrast commercial whites, sophisticated metallic tones"
+    - "pristine commercial whites, dramatic shadows, metallic highlights"
+
+# Движения камеры
+camera_movements:
+  establishing_to_detail:
+    - "Camera begins with wide establishing shot, then executes slow dolly movement forward with subtle downward tilt"
+    - "Elegant crane movement descending from high angle to intimate eye-level perspective"
+  
+  orbital_showcase:
+    - "Smooth tracking shot starting from left side, gracefully orbiting around the dressing table"
+    - "Sophisticated lateral tracking combined with slow zoom"
+  
+  intimate_approach:
+    - "Gentle push-in movement from medium shot to close-up"
+    - "Smooth flowing camera movement demonstrating integration into routines"
+
+# JSON структура мемных сценариев (сохранены из оригинала)
 meme_scenarios:
   morning_chaos:
     - id: "morning_panic_1"
@@ -77,119 +210,59 @@ meme_scenarios:
       russian_voiceover: "Когда до работы 5 минут, а помады нигде нет! Столик TURAN спасёт любое утро!"
       emotion: "panic"
       duration_focus: "quick_action"
+      enhancement_style: "lifestyle"  # Какой стиль применить для улучшения
       
     - id: "tiktok_fail_1"
       english_prompt: "Dressing table stays as in image. Add: Woman attempts TikTok makeup tutorial, everything goes wrong, makeup explodes everywhere on glass surface, mirror reflects the disaster, comedic timing, 8-second fail compilation"
       russian_voiceover: "Повторяем макияж с ТикТока на столике TURAN. Ожидание VS реальность!"
       emotion: "embarrassed_laugh"
       duration_focus: "quick_fail"
+      enhancement_style: "dramatic"
 
-  relationships_family:
-    - id: "hiding_purchases_1"
-      english_prompt: "Keep the dressing table unchanged from image. Add: Woman quickly stuffing Wildberries packages into the 4 drawers, looking around nervously, guilty smile, husband's voice heard from distance, sneaky comedy moment, 8-second scene"
-      russian_voiceover: "Прячем покупки в ящики столика от мужа. TURAN понимает женские секреты!"
-      emotion: "guilty_fun"
-      duration_focus: "quick_hiding"
-      
-    - id: "mom_daughter_fight_1"
-      english_prompt: "Dressing table remains the same. Add: Teenage daughter and mother competing for mirror space, gentle pushing, both applying makeup simultaneously, generational comedy, LED lighting showing both faces, 8-second family moment"
-      russian_voiceover: "Мама против дочки - битва за зеркало столика TURAN! Кто кого?"
-      emotion: "playful_conflict"
-      duration_focus: "quick_competition"
-
-  pets_animals:
-    - id: "cat_chaos_1"
-      english_prompt: "Preserve dressing table from image. Add: Cat jumps onto glass surface, walks through makeup palette, paw prints on mirror, woman's shocked reaction, pet chaos comedy, 8-second animal interference"
-      russian_voiceover: "Когда кот решил помочь с макияжем! Столик TURAN выдержит всё!"
-      emotion: "surprised_laughter"
-      duration_focus: "quick_disruption"
-      
-    - id: "dog_thief_1"
-      english_prompt: "Keep dressing table from image. Add: Small dog steals expensive makeup brush, runs away, woman chases, LED mirror lighting the comedy chase, 8-second pet theft scene"
-      russian_voiceover: "Собака украла кисть за 5000! Столик TURAN помнит всё!"
-      emotion: "chase_comedy"
-      duration_focus: "quick_theft"
-
-  holidays_events:
-    - id: "new_year_rush_1"
-      english_prompt: "Keep dressing table as shown. Add: Woman preparing for New Year at 23:58, clock visible, emergency makeup application, sparkly dress hanging nearby, countdown pressure, 8-second holiday panic"
-      russian_voiceover: "До Нового Года 2 минуты! Экстренная красота на столике TURAN!"
-      emotion: "festive_panic"
-      duration_focus: "countdown_rush"
-      
-    - id: "first_date_1"
-      english_prompt: "Dressing table unchanged. Add: Woman getting ready for first date, multiple outfit changes reflected in mirror, nervous energy, phone buzzing with messages, 8-second pre-date anxiety"
-      russian_voiceover: "Первое свидание! Столик TURAN - свидетель всех женских волнений!"
-      emotion: "nervous_excitement"
-      duration_focus: "quick_preparation"
-
-  social_media_work:
-    - id: "video_call_disaster_1"
-      english_prompt: "Maintain dressing table appearance. Add: Woman on video call while applying makeup, accidentally hits camera, makeup brush visible on screen, online meeting chaos, 8-second modern problem"
-      russian_voiceover: "Рабочий звонок во время макияжа! Столик TURAN в кадре - стильно!"
-      emotion: "awkward_comedy"
-      duration_focus: "quick_accident"
-      
-    - id: "instagram_reality_1"
-      english_prompt: "Dressing table unchanged. Add: Split screen effect - perfect Instagram photo vs messy reality, woman posing vs chaos behind camera, social media truth, 8-second reality check"
-      russian_voiceover: "Инстаграм против реальности! Столик TURAN знает правду!"
-      emotion: "ironic_truth"
-      duration_focus: "quick_reveal"
-
-  beauty_addiction:
-    - id: "makeup_mountain_1"
-      english_prompt: "Dressing table stays the same. Add: Extreme close-up of overflowing makeup collection on glass surface, woman trying to organize chaos, products falling, beauty addiction comedy, 8-second organization fail"
-      russian_voiceover: "Когда косметики больше, чем места! Столик TURAN - база красоты!"
-      emotion: "overwhelmed_happy"
-      duration_focus: "quick_organization"
-
-  family_wisdom:
-    - id: "grandma_wisdom_1"
-      english_prompt: "Dressing table preserved as in image. Add: Elderly grandmother teaching young girl vintage makeup techniques, gentle hands, wisdom transfer, warm lighting on both generations, 8-second touching moment"
-      russian_voiceover: "Бабушкины секреты красоты за столиком TURAN. Традиции живут!"
-      emotion: "heartwarming"
-      duration_focus: "gentle_teaching"
-
-# Параметры озвучки
-audio_parameters:
-  russian_voice:
-    language: "ru-RU"
-    voice_type: "natural"
-    speech_rate: "medium"
-    pitch: "normal"
-    volume: "normal"
-    
-  emotions_mapping:
-    panic: "stressed"
-    guilty_fun: "playful"
-    embarrassed_laugh: "amused"
-    playful_conflict: "competitive"
-    surprised_laughter: "shocked"
-    chase_comedy: "energetic"
-    festive_panic: "excited"
-    nervous_excitement: "anxious"
-    awkward_comedy: "embarrassed"
-    ironic_truth: "sarcastic"
-    overwhelmed_happy: "overwhelmed"
-    heartwarming: "gentle"
-
-# Негативные промпты для качества
-negative_prompts:
-  main: "changing the dressing table design, removing furniture, poor quality, blurry, distorted, unnatural colors, bad lighting, ugly, low resolution, pixelated, amateur, unprofessional"
+# A/B тестирование настройки
+ab_testing:
+  enabled: true
+  comparison_metrics:
+    - "visual_quality"
+    - "cinematic_appeal"
+    - "brand_perception"
+    - "engagement_potential"
   
-  specific:
-    - "altering furniture appearance"
-    - "removing original table"
-    - "changing table color"
-    - "different furniture style"
-    - "poor video quality"
-    - "bad lighting setup"
+  test_scenarios:
+    traditional_vs_enhanced:
+      traditional:
+        use_enhanced_prompts: false
+        simple_description: true
+      enhanced:
+        use_enhanced_prompts: true
+        cinematic_style: "commercial"
+        lighting_mood: "golden_hour"
+
+# Аналитика и мониторинг
+analytics:
+  track_performance: true
+  export_reports: true
+  log_prompt_effectiveness: true
+  
+  metrics:
+    - "total_generated"
+    - "enhanced_prompts_used"
+    - "traditional_prompts_used"
+    - "scenarios_used"
+    - "enhancement_usage_percentage"
+    - "most_used_scenarios"
+  
+  reporting:
+    auto_export: true
+    include_prompt_analysis: true
+    track_cinematic_styles: true
+    monitor_lighting_preferences: true
 
 # Настройки логирования
 logging:
   level: "INFO"
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  file: "turan_dressing_table_generator.log"
+  file: "turan_enhanced_generator.log"
   max_file_size: "10MB"
   backup_count: 5
 
@@ -199,7 +272,8 @@ monitoring:
   save_intermediate_results: true
   create_thumbnails: true
   generate_reports: true
-  save_scenario_info: true  # Новое: сохранение JSON сценариев
+  save_scenario_info: true
+  track_enhancement_usage: true  # Новое: отслеживание использования улучшений
 
 # Настройки обработки изображений
 image_processing:
@@ -219,98 +293,121 @@ performance:
   retry_delay: 5
   batch_size: 5
   cache_results: true
+  
+  # Новые настройки для улучшенных промптов
+  enhanced_processing:
+    prompt_validation: true
+    length_optimization: true
+    style_consistency_check: true
 
-# Контент стратегия для мемов
+# Контент стратегия для кинематографических видео
 content_strategy:
-  focus: "viral_meme_content"
-  tone: "humorous_relatable"
+  focus: "cinematic_furniture_showcase"
+  tone: "professional_premium"
   duration: "8_seconds_optimal"
   
   target_platforms:
-    - "TikTok"
+    - "YouTube"
     - "Instagram_Stories"
     - "Instagram_Reels"
-    - "YouTube_Shorts"
+    - "TikTok"
     - "Facebook"
   
-  viral_elements:
-    - "relatable_morning_situations"
-    - "relationship_humor"
-    - "beauty_fails"
-    - "generational_differences"
-    - "pet_interruptions"
-    - "technology_struggles"
-    - "family_dynamics"
+  cinematic_elements:
+    - "professional_camera_specifications"
+    - "detailed_lighting_descriptions"
+    - "sophisticated_camera_movements"
+    - "audio_design_integration"
+    - "color_palette_definition"
+    - "technical_cinematography_terms"
     
   engagement_hooks:
-    - "POV scenarios"
-    - "Expectation vs Reality"
-    - "Mom vs Daughter"
-    - "Before vs After"
-    - "Emergency situations"
-    - "Pet chaos moments"
+    - "Professional cinematography quality"
+    - "Luxury brand presentation"
+    - "Premium furniture showcase"
+    - "Cinematic lighting effects"
+    - "Smooth camera movements"
+    - "Integrated audio design"
 
-# Брендинг TURAN Lux
+# Брендинг TURAN Lux с кинематографическим подходом
 branding:
   brand_name: "TURAN"
   product_line: "Lux"
-  key_message: "Качественная мебель для красоты"
+  key_message: "Кинематографическое качество для премиум мебели"
   
   brand_values:
-    - "Качество"
-    - "Стиль"
-    - "Функциональность"
-    - "Семейные ценности"
-    - "Доступность"
+    - "Профессиональное качество"
+    - "Кинематографический стиль"
+    - "Премиум презентация"
+    - "Техническое совершенство"
+    - "Визуальное превосходство"
   
   visual_identity:
+    cinematic_approach: true
+    professional_standards: true
+    premium_presentation: true
+    
     colors:
-      primary: "White glass surface"
-      accent: "LED warm lighting"
-      background: "Elegant interior"
+      primary: "White glass surface with cinematic lighting"
+      accent: "LED warm lighting with professional color grading"
+      background: "Elegant interior with sophisticated atmosphere"
     
     style:
-      - "Modern minimalism"
-      - "Warm lighting"
-      - "Cinematic quality"
-      - "Premium feel"
-      - "Relatable scenarios"
-      - "Preserve original furniture"
+      - "Commercial cinematography"
+      - "Professional lighting design"
+      - "Sophisticated camera work"
+      - "Premium visual quality"
+      - "Cinematic color grading"
+      - "Preserve original furniture integrity"
 
-# SEO и хештеги
-seo_hashtags:
-  russian:
-    base: ["#туалетныйстолик", "#TURAN", "#TURANLux"]
-    beauty: ["#красота", "#макияж", "#косметика"]
-    interior: ["#интерьер", "#мебель", "#дизайн", "#стиль"]
-    lifestyle: ["#утро", "#женскиесекреты", "#бьютихаки"]
-    meme: ["#мемы", "#приколы", "#жизненно", "#релакс"]
+# Экспорт и интеграция
+export_settings:
+  formats:
+    - "MP4"
+    - "MOV" 
   
-  english:
-    base: ["#dressingtable", "#TURAN", "#TURANLux"]
-    beauty: ["#beauty", "#makeup", "#skincare"]
-    lifestyle: ["#morningroutine", "#getready", "#beautytips"]
-    furniture: ["#furniture", "#interior", "#homedecor"]
+  metadata:
+    include_scenario_info: true
+    include_cinematic_style: true
+    include_lighting_mood: true
+    include_enhancement_status: true
+  
+  naming_convention: "turan_{style}_{scenario_id}_{image_name}_{timestamp}"
+  
+  quality_presets:
+    youtube: "1080p, commercial style, golden hour lighting"
+    instagram: "1080p, lifestyle style, morning soft lighting"
+    tiktok: "1080p, lifestyle style, dramatic contrast lighting"
+    premium: "1080p, dramatic style, cinematic lighting"
 
-# Шаблоны для постов в соцсетях
-social_media_templates:
-  tiktok:
-    format: "Вертикальное 9:16"
-    duration: "8 секунд"
-    text_overlay: "Минимальный"
-    hashtags_limit: 10
+# Интеграция с внешними системами
+integrations:
+  google_cloud_storage:
+    auto_upload: true
+    metadata_tagging: true
     
-  instagram_stories:
-    format: "Вертикальное 9:16"
-    duration: "8 секунд"
-    interactive_elements: ["Опросы", "Реакции"]
-    
-  instagram_reels:
-    format: "Вертикальное 9:16"
-    duration: "8 секунд"
-    trending_sounds: true
-    
-  youtube_shorts:
-    format: "Вертикальное 9:16"
-    duration: "8 секунд"
-    thumbnail_auto: true
+  analytics_platforms:
+    google_analytics: false
+    custom_tracking: true
+  
+  social_media_apis:
+    instagram_business: false
+    youtube_api: false
+    tiktok_business: false
+
+# Обучение и оптимизация
+learning:
+  prompt_optimization:
+    enabled: true
+    feedback_collection: true
+    success_pattern_analysis: true
+  
+  style_refinement:
+    track_preferred_styles: true
+    optimize_lighting_choices: true
+    refine_camera_movements: true
+  
+  performance_tuning:
+    monitor_generation_times: true
+    track_success_rates: true
+    optimize_configurations: true
