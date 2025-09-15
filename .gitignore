@@ -6,3 +6,5 @@ output
 turan_video_generator.log
 turan-credentials.json
 *.pyc
+*.log
+*.json

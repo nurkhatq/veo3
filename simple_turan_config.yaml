@@ -1,0 +1,316 @@
+# TURAN Dressing Table Video Generator - Обновленная конфигурация с JSON сценариями
+
+# Google Cloud настройки
+google_cloud:
+  project_id: "turantt"
+  project_number: "850567696273"
+  location: "us-central1"
+  account: "talllggat07777@gmail.com"
+  
+# Настройки хранилища
+storage:
+  bucket_name: "turan-videos"
+  input_folder: "images/dressing_tables"
+  output_folder: "output/dressing_table_videos"
+  temp_folder: "temp"
+  scenarios_file: "generated_scenarios.json"
+  
+# Настройки Veo API (только VEO 3.0)
+veo_api:
+  model: "veo-3.0-generate-001"  # Фиксированная модель
+  max_concurrent_operations: 2   # Консервативно для качества
+  operation_timeout: 600
+  retry_attempts: 3
+  
+# Настройки видео по умолчанию
+video_defaults:
+  duration_seconds: 8            # Фиксированная длительность
+  aspect_ratio: "16:9"
+  resolution: "1080p"
+  generate_audio: true           # Русская озвучка
+  enhance_prompt: true
+  compression_quality: "optimized"
+  person_generation: "allow_adult"
+  sample_count: 1
+
+# Конфигурации для социальных сетей
+social_media_configs:
+  youtube_facebook:
+    model: "veo-3.0-generate-001"
+    duration_seconds: 8
+    aspect_ratio: "16:9"
+    resolution: "1080p"
+    generate_audio: true
+    
+  instagram_tiktok:
+    model: "veo-3.0-generate-001"
+    duration_seconds: 8
+    aspect_ratio: "9:16"
+    resolution: "1080p"
+    generate_audio: true
+
+# Информация о продукте TURAN Lux
+product_info:
+  name: "Туалетный столик TURAN Lux"
+  description: "Стильное и функциональное решение для вашего интерьера"
+  
+  features:
+    - "Белая закаленная стеклянная столешница"
+    - "4 ящика (2 встроенных + 2 съемных)"
+    - "Зеркало с 3 режимами подсветки LED"
+    - "Металлические ножки"
+    - "Стул с мягкой обивкой в комплекте"
+    - "Регулируемое расположение внешних ящиков"
+    - "Надёжные и устойчивые материалы"
+    
+  target_audience:
+    - "Женщины 18-45 лет"
+    - "Любители красоты и ухода за собой"
+    - "Ценители стильного интерьера"
+    - "Активные пользователи социальных сетей"
+
+# JSON структура мемных сценариев (8 секунд, быстрые)
+meme_scenarios:
+  morning_chaos:
+    - id: "morning_panic_1"
+      english_prompt: "Keep the dressing table exactly as shown in image. Add: Woman rushes to the dressing table at 6 AM, frantically opens drawers searching for lipstick, panicked expression, scattered makeup items on glass surface, dramatic morning lighting, 8-second quick comedy scene"
+      russian_voiceover: "Когда до работы 5 минут, а помады нигде нет! Столик TURAN спасёт любое утро!"
+      emotion: "panic"
+      duration_focus: "quick_action"
+      
+    - id: "tiktok_fail_1"
+      english_prompt: "Dressing table stays as in image. Add: Woman attempts TikTok makeup tutorial, everything goes wrong, makeup explodes everywhere on glass surface, mirror reflects the disaster, comedic timing, 8-second fail compilation"
+      russian_voiceover: "Повторяем макияж с ТикТока на столике TURAN. Ожидание VS реальность!"
+      emotion: "embarrassed_laugh"
+      duration_focus: "quick_fail"
+
+  relationships_family:
+    - id: "hiding_purchases_1"
+      english_prompt: "Keep the dressing table unchanged from image. Add: Woman quickly stuffing Wildberries packages into the 4 drawers, looking around nervously, guilty smile, husband's voice heard from distance, sneaky comedy moment, 8-second scene"
+      russian_voiceover: "Прячем покупки в ящики столика от мужа. TURAN понимает женские секреты!"
+      emotion: "guilty_fun"
+      duration_focus: "quick_hiding"
+      
+    - id: "mom_daughter_fight_1"
+      english_prompt: "Dressing table remains the same. Add: Teenage daughter and mother competing for mirror space, gentle pushing, both applying makeup simultaneously, generational comedy, LED lighting showing both faces, 8-second family moment"
+      russian_voiceover: "Мама против дочки - битва за зеркало столика TURAN! Кто кого?"
+      emotion: "playful_conflict"
+      duration_focus: "quick_competition"
+
+  pets_animals:
+    - id: "cat_chaos_1"
+      english_prompt: "Preserve dressing table from image. Add: Cat jumps onto glass surface, walks through makeup palette, paw prints on mirror, woman's shocked reaction, pet chaos comedy, 8-second animal interference"
+      russian_voiceover: "Когда кот решил помочь с макияжем! Столик TURAN выдержит всё!"
+      emotion: "surprised_laughter"
+      duration_focus: "quick_disruption"
+      
+    - id: "dog_thief_1"
+      english_prompt: "Keep dressing table from image. Add: Small dog steals expensive makeup brush, runs away, woman chases, LED mirror lighting the comedy chase, 8-second pet theft scene"
+      russian_voiceover: "Собака украла кисть за 5000! Столик TURAN помнит всё!"
+      emotion: "chase_comedy"
+      duration_focus: "quick_theft"
+
+  holidays_events:
+    - id: "new_year_rush_1"
+      english_prompt: "Keep dressing table as shown. Add: Woman preparing for New Year at 23:58, clock visible, emergency makeup application, sparkly dress hanging nearby, countdown pressure, 8-second holiday panic"
+      russian_voiceover: "До Нового Года 2 минуты! Экстренная красота на столике TURAN!"
+      emotion: "festive_panic"
+      duration_focus: "countdown_rush"
+      
+    - id: "first_date_1"
+      english_prompt: "Dressing table unchanged. Add: Woman getting ready for first date, multiple outfit changes reflected in mirror, nervous energy, phone buzzing with messages, 8-second pre-date anxiety"
+      russian_voiceover: "Первое свидание! Столик TURAN - свидетель всех женских волнений!"
+      emotion: "nervous_excitement"
+      duration_focus: "quick_preparation"
+
+  social_media_work:
+    - id: "video_call_disaster_1"
+      english_prompt: "Maintain dressing table appearance. Add: Woman on video call while applying makeup, accidentally hits camera, makeup brush visible on screen, online meeting chaos, 8-second modern problem"
+      russian_voiceover: "Рабочий звонок во время макияжа! Столик TURAN в кадре - стильно!"
+      emotion: "awkward_comedy"
+      duration_focus: "quick_accident"
+      
+    - id: "instagram_reality_1"
+      english_prompt: "Dressing table unchanged. Add: Split screen effect - perfect Instagram photo vs messy reality, woman posing vs chaos behind camera, social media truth, 8-second reality check"
+      russian_voiceover: "Инстаграм против реальности! Столик TURAN знает правду!"
+      emotion: "ironic_truth"
+      duration_focus: "quick_reveal"
+
+  beauty_addiction:
+    - id: "makeup_mountain_1"
+      english_prompt: "Dressing table stays the same. Add: Extreme close-up of overflowing makeup collection on glass surface, woman trying to organize chaos, products falling, beauty addiction comedy, 8-second organization fail"
+      russian_voiceover: "Когда косметики больше, чем места! Столик TURAN - база красоты!"
+      emotion: "overwhelmed_happy"
+      duration_focus: "quick_organization"
+
+  family_wisdom:
+    - id: "grandma_wisdom_1"
+      english_prompt: "Dressing table preserved as in image. Add: Elderly grandmother teaching young girl vintage makeup techniques, gentle hands, wisdom transfer, warm lighting on both generations, 8-second touching moment"
+      russian_voiceover: "Бабушкины секреты красоты за столиком TURAN. Традиции живут!"
+      emotion: "heartwarming"
+      duration_focus: "gentle_teaching"
+
+# Параметры озвучки
+audio_parameters:
+  russian_voice:
+    language: "ru-RU"
+    voice_type: "natural"
+    speech_rate: "medium"
+    pitch: "normal"
+    volume: "normal"
+    
+  emotions_mapping:
+    panic: "stressed"
+    guilty_fun: "playful"
+    embarrassed_laugh: "amused"
+    playful_conflict: "competitive"
+    surprised_laughter: "shocked"
+    chase_comedy: "energetic"
+    festive_panic: "excited"
+    nervous_excitement: "anxious"
+    awkward_comedy: "embarrassed"
+    ironic_truth: "sarcastic"
+    overwhelmed_happy: "overwhelmed"
+    heartwarming: "gentle"
+
+# Негативные промпты для качества
+negative_prompts:
+  main: "changing the dressing table design, removing furniture, poor quality, blurry, distorted, unnatural colors, bad lighting, ugly, low resolution, pixelated, amateur, unprofessional"
+  
+  specific:
+    - "altering furniture appearance"
+    - "removing original table"
+    - "changing table color"
+    - "different furniture style"
+    - "poor video quality"
+    - "bad lighting setup"
+
+# Настройки логирования
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "turan_dressing_table_generator.log"
+  max_file_size: "10MB"
+  backup_count: 5
+
+# Настройки мониторинга
+monitoring:
+  enable_progress_bar: true
+  save_intermediate_results: true
+  create_thumbnails: true
+  generate_reports: true
+  save_scenario_info: true  # Новое: сохранение JSON сценариев
+
+# Настройки обработки изображений
+image_processing:
+  supported_formats: [".jpg", ".jpeg", ".png", ".webp"]
+  max_file_size: "50MB"
+  auto_resize: true
+  target_resolution:
+    width: 1920
+    height: 1080
+  quality_enhancement: true
+  preserve_original: true  # Не менять столик на изображении
+
+# Настройки производительности
+performance:
+  max_concurrent_requests: 2  # Консервативно для качества
+  request_timeout: 30
+  retry_delay: 5
+  batch_size: 5
+  cache_results: true
+
+# Контент стратегия для мемов
+content_strategy:
+  focus: "viral_meme_content"
+  tone: "humorous_relatable"
+  duration: "8_seconds_optimal"
+  
+  target_platforms:
+    - "TikTok"
+    - "Instagram_Stories"
+    - "Instagram_Reels"
+    - "YouTube_Shorts"
+    - "Facebook"
+  
+  viral_elements:
+    - "relatable_morning_situations"
+    - "relationship_humor"
+    - "beauty_fails"
+    - "generational_differences"
+    - "pet_interruptions"
+    - "technology_struggles"
+    - "family_dynamics"
+    
+  engagement_hooks:
+    - "POV scenarios"
+    - "Expectation vs Reality"
+    - "Mom vs Daughter"
+    - "Before vs After"
+    - "Emergency situations"
+    - "Pet chaos moments"
+
+# Брендинг TURAN Lux
+branding:
+  brand_name: "TURAN"
+  product_line: "Lux"
+  key_message: "Качественная мебель для красоты"
+  
+  brand_values:
+    - "Качество"
+    - "Стиль"
+    - "Функциональность"
+    - "Семейные ценности"
+    - "Доступность"
+  
+  visual_identity:
+    colors:
+      primary: "White glass surface"
+      accent: "LED warm lighting"
+      background: "Elegant interior"
+    
+    style:
+      - "Modern minimalism"
+      - "Warm lighting"
+      - "Cinematic quality"
+      - "Premium feel"
+      - "Relatable scenarios"
+      - "Preserve original furniture"
+
+# SEO и хештеги
+seo_hashtags:
+  russian:
+    base: ["#туалетныйстолик", "#TURAN", "#TURANLux"]
+    beauty: ["#красота", "#макияж", "#косметика"]
+    interior: ["#интерьер", "#мебель", "#дизайн", "#стиль"]
+    lifestyle: ["#утро", "#женскиесекреты", "#бьютихаки"]
+    meme: ["#мемы", "#приколы", "#жизненно", "#релакс"]
+  
+  english:
+    base: ["#dressingtable", "#TURAN", "#TURANLux"]
+    beauty: ["#beauty", "#makeup", "#skincare"]
+    lifestyle: ["#morningroutine", "#getready", "#beautytips"]
+    furniture: ["#furniture", "#interior", "#homedecor"]
+
+# Шаблоны для постов в соцсетях
+social_media_templates:
+  tiktok:
+    format: "Вертикальное 9:16"
+    duration: "8 секунд"
+    text_overlay: "Минимальный"
+    hashtags_limit: 10
+    
+  instagram_stories:
+    format: "Вертикальное 9:16"
+    duration: "8 секунд"
+    interactive_elements: ["Опросы", "Реакции"]
+    
+  instagram_reels:
+    format: "Вертикальное 9:16"
+    duration: "8 секунд"
+    trending_sounds: true
+    
+  youtube_shorts:
+    format: "Вертикальное 9:16"
+    duration: "8 секунд"
+    thumbnail_auto: true
